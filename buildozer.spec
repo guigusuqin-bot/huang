@@ -1,7 +1,7 @@
 [app]
-title = 大黄儿
-package.name = snakegame
-package.domain = org.example
+title = 想册翔翔
+package.name = alarmapp
+package.domain = com.yourname
 
 source.dir = .
 source.include_exts = py,mp3,png
