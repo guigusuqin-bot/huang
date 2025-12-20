@@ -11,7 +11,7 @@ requirements = python3,kivy
 orientation = portrait
 fullscreen = 1
 
-icon.filename = icon.png
+#icon.filename = icon.png
 presplash.filename =
 
 version = 0.1
