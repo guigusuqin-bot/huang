@@ -2,8 +2,8 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.core.audio import SoundLoader
-from kivy.clock import Clock
 import os
+import shutil
 
 
 class AlarmApp(App):
@@ -35,13 +35,25 @@ class AlarmApp(App):
 
         return layout
 
+    def on_start(self):
+        """
+        App 启动时，把 alarm.mp3 从 APK 资源复制到可读目录
+        """
+        target_path = self.get_alarm_path()
+
+        if not os.path.exists(target_path):
+            try:
+                shutil.copy("alarm.mp3", target_path)
+            except Exception as e:
+                print("❌ 复制 alarm.mp3 失败:", e)
+
     def play_alarm(self, instance):
         if self.sound is None:
             self.sound = SoundLoader.load(self.get_alarm_path())
             if self.sound:
                 self.sound.loop = True
             else:
-                print("❌ 未找到 alarm.mp3")
+                print("❌ 未能加载 alarm.mp3")
                 return
 
         self.sound.play()
@@ -52,9 +64,9 @@ class AlarmApp(App):
 
     def get_alarm_path(self):
         """
-        Android + 桌面通用的安全路径获取方式
+        Android / 桌面 通用、安全路径
         """
-        return os.path.join(os.getcwd(), "alarm.mp3")
+        return os.path.join(self.user_data_dir, "alarm.mp3")
 
 
 if __name__ == "__main__":
